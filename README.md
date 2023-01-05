@@ -9,10 +9,10 @@
 
 ## Description 
 
-Exporting installed packages to list in Arch linux for Flatpack, AUR, Official
+Exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official
 
 ## Usage
 
  ```bash 
- python ./arch-eip.py
+ python ./script.py
  ```
