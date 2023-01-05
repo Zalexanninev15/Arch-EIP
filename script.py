@@ -15,7 +15,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import subprocess
-import markdown
 
 def console(commands):
     return subprocess.run(commands, shell=True, capture_output=True, text=True)
