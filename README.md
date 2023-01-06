@@ -9,7 +9,7 @@
 
 ## Description 
 
-Exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official
+Exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official. Example [here](https://cloud.disroot.org/s/4K63rWKJZ9YDxcP) (from [my Telegram channel PingvinusFun](https://ttttt.me/pingvinusfun) (RU), where I talk about my adventures and discoveries in OpenSource and Linux, which I became actively interested in in 2023, [post with example](https://ttttt.me/pingvinusfun/34))
 
 ## Usage
 
