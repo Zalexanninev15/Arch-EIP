@@ -26,7 +26,7 @@ under certain conditions.''')
 print("\nArch-EIP v1.1 (Flatpak+AUR+Official) by Zalexanninev15")
 print("GitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
-print("[*] Working (4 steps)...\n")
+print("[*] Working (3 steps)...\n")
 
 print('[!] Step 1. Flatpak')
 flatpak = 'flatpak list --app --columns=name --columns=application'
