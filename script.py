@@ -16,35 +16,31 @@
 
 import subprocess
 
-def console(commands):
-    return subprocess.run(commands, shell=True, capture_output=True, text=True)
+def console(commands, file):
+    subprocess.run(commands, shell=True, stdout=file, text=True)
 
-print('''WebWordSearch  Copyright (C) 2023  Zalexanninev15
+print('''Arch-EIP  Copyright (C) 2023  Zalexanninev15
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
-print("\nArch-EIP v1.0 (flatpak+aur+official) by Zalexanninev15")
+print("\nArch-EIP v1.1 (Flatpak+AUR+Official) by Zalexanninev15")
 print("GitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
 print("[*] Working (4 steps)...\n")
 
-print('[!] Step 1. Flatpack')
-flatpak = 'flatpak list | grep -v freedesktop | grep -v KDE | grep -v GNOME | grep -v theme | column -t'
-s1 = console(flatpak).stdout
+print('[!] Step 1. Flatpak')
+flatpak = 'flatpak list --app --columns=name --columns=application'
+with open("Flatpak.txt", "w") as f:
+    console(flatpak, f)
 
 print('[!] Step 2. AUR')
-aur = 'pacman -Qem'
-s2 = console(aur).stdout
+aur = 'pamac list --foreign'
+with open("AUR.txt", "w") as f:
+    console(aur, f)
 
 print('[!] Step 3. Official')
-official = 'comm -23 <(pacman -Qqett | sort | uniq) <(pacman -Qqg -g base-devel | sort | uniq)'
-s3 = console(official).stdout
-
-print('[!] Step 4. Write packages to file')
-packages = ""
-file_name = "installed_packages"
-packages = f'# Flatpak:\n```{s1}```\n# AUR:\n```{s2}```\n# Official:\n```{s3}```'
-with open(f"{file_name}.md", "w", encoding="utf-8") as fp:
-    fp.write(packages)
+official = 'pamac list --installed | grep -v AUR'
+with open("Official.txt", "w") as f:
+    console(official, f)
     
-print('\n[+] Done! All installed packages are written in the file "installed_packages.md"')
+print('\n[+] Done! All installed packages are written in the files \"Flatpak.txt\", \"AUR.txt\", \"Official.txt\"')
