@@ -16,4 +16,4 @@ Script for exporting installed packages to list (Markdown) in Arch linux for Fla
  ```bash 
  python ./script.py
  ```
- The packages of each type of package will be written to the appropriate text file: `Official.txt`, `AUR.txt` and `Flatpak.txt`
+ The packages of each type of package will be written to the appropriate text file: `Flatpak.txt`, `AUR.txt`, `Official.txt`
