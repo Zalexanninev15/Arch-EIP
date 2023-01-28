@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Script for exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official
 # Copyright (C) 2023 Zalexanninev15
 
@@ -23,7 +25,7 @@ print('''Arch-EIP  Copyright (C) 2023  Zalexanninev15
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
-print("\nArch-EIP v1.1 (Flatpak+AUR+Official) by Zalexanninev15")
+print("\nArch-EIP v1.1.0.1 (Flatpak+AUR+Official) by Zalexanninev15")
 print("GitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
 print("[*] Working (3 steps)...\n")
