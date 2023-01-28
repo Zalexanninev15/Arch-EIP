@@ -13,6 +13,8 @@ Script for exporting installed packages to list (Markdown) in Arch linux for Fla
 
 ## Usage
 
+Do the following in terminal or just launch with a mouse click (or how many of them you need to produce 😉)
+
  ```bash 
  python ./script.py
  ```
