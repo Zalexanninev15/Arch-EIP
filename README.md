@@ -16,3 +16,4 @@ Exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR,
  ```bash 
  python ./script.py
  ```
+ The packages of each type of package will be written to the appropriate text file: `Official.txt`, `AUR.txt` and `Flatpak.txt`
