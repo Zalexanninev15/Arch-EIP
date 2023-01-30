@@ -13,11 +13,11 @@
 
 #### GUI implementation
 
-<img src="./gui.png" width="370">
+<img src="./assets/gui.png" width="370">
 
 #### Console implementation
 
-![](./console.png)
+![](./assets/console.png)
 
 ## Description 
 
