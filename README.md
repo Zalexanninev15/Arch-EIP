@@ -1,5 +1,7 @@
 # Arch-EIP
 
+<img src="./icon.png" width="128">
+
  [![](https://img.shields.io/badge/platforms-Arch_Linux-1793D1.svg?logo=archlinux)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/badge/written_on-Python-3776AB.svg?logo=python)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/badge/release-v1.2-blue.svg)](https://github.com/Zalexanninev15/Arch-EIP) 
@@ -7,13 +9,23 @@
  [![](https://img.shields.io/badge/license-GPLv3-ligthgreen.svg)](LICENSE) 
  [![](https://img.shields.io/badge/donate-Buy_Me_a_Coffee-F94400.svg)](https://zalexanninev15.jimdofree.com/buy-me-a-coffee) 
 
+## Screenshots
+
+#### GUI implementation
+
+<img src="./gui.png" width="370">
+
+#### Console implementation
+
+![](./console.png)
+
 ## Description 
 
 Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3). Example [here](https://cloud.disroot.org/s/4K63rWKJZ9YDxcP) (from [my Telegram channel PingvinusFun](https://ttttt.me/pingvinusfun) (RU), where I talk about my adventures and discoveries in OpenSource and Linux, which I became actively interested in 2023, [post with example](https://ttttt.me/pingvinusfun/34)). To get packages, I use `flatpak`, `pamac` and `grep` to exclude unnecessary strings. All tests were performed on Manjaro Linux ([example](https://ttttt.me/Zalexanninev15_News/825))
 
 ## Usage
 
-#### GUI version
+#### GUI implementation
 
 Prepare for GUI version launch:
 
@@ -26,7 +38,7 @@ Just start the `gui.py` file just launch with a mouse click and select a folder 
 
 > In general, I'm new to all these GUI on Linux (this is my first graphical application), previously I did only on WinForms and a little WPF on Windows, so do not hesitate and correct my code/pay my attention to errors
 
-#### Console version
+#### Console implementation
 
 Do the following in terminal or just launch with a mouse click (or how many of them you need to produce 😉)
 

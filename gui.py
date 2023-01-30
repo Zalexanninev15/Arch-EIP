@@ -21,7 +21,7 @@ from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QV
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
 
-version = "1.0-beta1"
+version = "1.0"
 version_console = "1.2"
 
 class AboutDialog(QDialog):
