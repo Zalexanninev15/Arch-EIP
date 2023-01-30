@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Script for exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official
+# Script for exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
 # Copyright (C) 2023 Zalexanninev15
 
 # This program is free software: you can redistribute it and/or modify
@@ -18,31 +18,33 @@
 
 import subprocess
 
-def console(commands, file):
-    subprocess.run(commands, shell=True, stdout=file, text=True)
+def write_to_file(commands, file):
+    with open(f"{file}.txt", "w") as f:
+        subprocess.run(commands, shell=True, stdout=f, text=True)
 
 print('''Arch-EIP  Copyright (C) 2023  Zalexanninev15
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
-print("\nArch-EIP v1.1.0.1 (Flatpak+AUR+Official) by Zalexanninev15")
-print("GitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
-print("[*] Working (3 steps)...\n")
+print("\nArch-EIP v1.2 (Flatpak+AUR+Official+PIP) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
+
+print("[*] Working (4 steps)...\n")
 
 print('[!] Step 1. Flatpak')
 flatpak = 'flatpak list --app --columns=name --columns=application'
-with open("Flatpak.txt", "w") as f:
-    console(flatpak, f)
+write_to_file(flatpak, "Flatpak")
 
 print('[!] Step 2. AUR')
 aur = 'pamac list --foreign'
-with open("AUR.txt", "w") as f:
-    console(aur, f)
+write_to_file(aur, "AUR")
 
 print('[!] Step 3. Official')
 official = 'pamac list --installed | grep -v AUR'
-with open("Official.txt", "w") as f:
-    console(official, f)
-    
-print('\n[+] Done! All installed packages are written in the files \"Flatpak.txt\", \"AUR.txt\", \"Official.txt\"')
+write_to_file(official, "Official")
+
+print('[!] Step 4. PIP (Python 3)')
+pip3 = 'pip3 list'
+write_to_file(pip3, "PIP")
+
+print('\n[+] Done! All installed packages are written in the files \"Flatpak.txt\", \"AUR.txt\", \"Official.txt\" and \"PIP.txt\"')
