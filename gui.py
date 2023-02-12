@@ -17,23 +17,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import subprocess
-from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QLineEdit, QDialog, QMessageBox, QProgressBar, QDialogButtonBox
+from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, \
+    QLineEdit, QDialog, QMessageBox, QProgressBar, QDialogButtonBox
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
 
-version = "1.0"
+version = "1.2-beta 1"
 version_console = "1.2"
+
 
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("About Arch-EIP")
-        self.setFixedSize(310, 150)
+        self.setWindowTitle("About")
+        self.setFixedSize(340, 180)
 
         label = QLabel(self)
         label.setTextFormat(Qt.RichText)
         label.setText("Arch-EIP GUI<br>"
-                      f"<b>Version:</b> {version} (console: {version_console})<br>"
+                      f"<b>GUI version:</b> {version}<br>"
+                      f"<b>Console version:</b> {version_console}<br>"
                       "<b>Author:</b> <a href=\"https://github.com/Zalexanninev15\">Zalexanninev15</a> <a href=\"mailto:mail@htmlacademy.ru\"><blue.shark@disroot.org></a><br>"
                       "<b>License:</b> GNU General Public License v3.0 (GPLv3)<br>"
                       "<b>GitHub:</b> <a href=\"https://github.com/Zalexanninev15/Arch-EIP\">https://github.com/Zalexanninev15/Arch-EIP</a>")
@@ -49,9 +52,11 @@ class AboutDialog(QDialog):
         main_layout.addWidget(button_box)
         self.setLayout(main_layout)
 
+
 def write_to_file(commands, file):
-        with open(f"{file}.txt", "w") as f:
-            subprocess.run(commands, shell=True, stdout=f, text=True)
+    with open(f"{file}.txt", "w") as f:
+        subprocess.run(commands, shell=True, stdout=f, text=True)
+
 
 class LongTermOperationThread(QThread):
     progress_updated = Signal(int)
@@ -68,14 +73,15 @@ class LongTermOperationThread(QThread):
         write_to_file(pip3, "PIP")
         self.operation_done.emit()
 
+
 class ExportDialog(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle(f"Arch-EIP v{version} GUI")
+        self.setWindowTitle(f"Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
-        width = 350
-        height = 130
+        width = 335
+        height = 135
         self.setFixedSize(width, height)
 
         self.label = QLabel("Select a folder to save the list of installed packages:")
@@ -93,7 +99,6 @@ class ExportDialog(QDialog):
         self.progress_bar = QProgressBar(self)
         self.progress_bar.setMinimum(0)
         self.progress_bar.setMaximum(100)
-        self.progress_bar.setValue(0)
 
         self.about_button = QPushButton("About")
         self.about_button.clicked.connect(self.about)
@@ -151,10 +156,11 @@ class ExportDialog(QDialog):
         self.progress_bar.setValue(-1)
         self.operation_thread.start()
 
+
 if __name__ == "__main__":
     app = QApplication()
     app.setWindowIcon(QIcon("icon.png"))
     export_dialog = ExportDialog()
-    export_dialog.setWindowTitle(f"Arch-EIP v{version} GUI")
+    export_dialog.setWindowTitle(f"Arch-EIP GUI")
     export_dialog.show()
     app.exec()

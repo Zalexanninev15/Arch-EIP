@@ -1,2 +1,5 @@
 
 *.txt
+venv
+.fleet/run.json
+.fleet/settings.json
