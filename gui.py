@@ -16,15 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import os
+from pathlib import Path
 import subprocess
 from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, \
-    QLineEdit, QDialog, QMessageBox, QProgressBar, QDialogButtonBox
+    QLineEdit, QDialog, QMessageBox, QProgressBar, QDialogButtonBox, QCheckBox
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
 
-version = "1.2-beta 1"
+version = "1.2-dev1"
 version_console = "1.2"
-
+folder_name = ""
+checked = [False, False, False, False]
 
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
@@ -54,25 +57,33 @@ class AboutDialog(QDialog):
 
 
 def write_to_file(commands, file):
-    with open(f"{file}.txt", "w") as f:
-        subprocess.run(commands, shell=True, stdout=f, text=True)
-
+    save_path = Path(folder_name).joinpath(f'{file}.txt')
+    try:
+        with open(save_path, "w") as f:
+            subprocess.run(commands, shell=True, stdout=f, text=True)
+    except:
+        with open(save_path, "w") as f:
+            f.write("No packages or package manager found!")
 
 class LongTermOperationThread(QThread):
     progress_updated = Signal(int)
     operation_done = Signal()
 
+    # Not working
     def run(self):
-        flatpak = 'flatpak list --app --columns=name --columns=application'
-        write_to_file(flatpak, "Flatpak")
-        aur = 'pamac list --foreign'
-        write_to_file(aur, "AUR")
-        official = 'pamac list --installed | grep -v AUR'
-        write_to_file(official, "Official")
-        pip3 = 'pip3 list'
-        write_to_file(pip3, "PIP")
+        if checked[0]:
+            flatpak = 'flatpak list --app --columns=name --columns=application'
+            write_to_file(flatpak, "Flatpak")
+        elif checked[1]:
+            aur = 'pamac list --foreign'
+            write_to_file(aur, "AUR")
+        elif checked[2]:
+            official = 'pamac list --installed | grep -v AUR'
+            write_to_file(official, "Official")
+        elif checked[3]:
+            pip = 'pip3 list --format=columns'
+            write_to_file(pip, "PIP")
         self.operation_done.emit()
-
 
 class ExportDialog(QDialog):
     def __init__(self):
@@ -80,8 +91,8 @@ class ExportDialog(QDialog):
 
         self.setWindowTitle(f"Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
-        width = 335
-        height = 135
+        width = 400
+        height = 200
         self.setFixedSize(width, height)
 
         self.label = QLabel("Select a folder to save the list of installed packages:")
@@ -92,6 +103,14 @@ class ExportDialog(QDialog):
 
         self.select_folder_button = QPushButton("Select Folder")
         self.select_folder_button.clicked.connect(self.select_folder)
+
+        self.ex_label = QLabel("What needs to be exported?")
+        self.ex_label.setAlignment(Qt.AlignCenter)
+
+        self.flatpak_checkbox = QCheckBox("Flatpak")
+        self.aur_checkbox = QCheckBox("AUR")
+        self.official_checkbox = QCheckBox("Official")
+        self.pip_checkbox = QCheckBox("PIP")
 
         self.export_button = QPushButton("Export")
         self.export_button.clicked.connect(self.export)
@@ -109,12 +128,19 @@ class ExportDialog(QDialog):
         folder_layout = QHBoxLayout()
         folder_layout.addWidget(self.folder_line_edit)
         folder_layout.addWidget(self.select_folder_button)
+        checkboxes_layout = QHBoxLayout()
+        checkboxes_layout.addWidget(self.flatpak_checkbox)
+        checkboxes_layout.addWidget(self.aur_checkbox)
+        checkboxes_layout.addWidget(self.official_checkbox)
+        checkboxes_layout.addWidget(self.pip_checkbox)
         down_layout = QHBoxLayout()
         down_layout.addWidget(self.progress_bar)
         down_layout.addWidget(self.about_button)
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.label)
         main_layout.addLayout(folder_layout)
+        main_layout.addWidget(self.ex_label)
+        main_layout.addLayout(checkboxes_layout)
         main_layout.addWidget(self.export_button)
         main_layout.addLayout(down_layout)
         self.setLayout(main_layout)
@@ -136,8 +162,8 @@ class ExportDialog(QDialog):
     def operation_done(self):
         msg_success = QMessageBox()
         msg_success.setIcon(QMessageBox.Information)
-        msg_success.setText("List of installed packages\nFlatpak, Aur, Official and PIP exported!")
-        msg_success.setWindowTitle("Export completed")
+        msg_success.setText("List of installed packages exported!")
+        msg_success.setWindowTitle("Export completed!")
         msg_success.exec()
         self.progress_bar.setMaximum(100)
         self.progress_bar.setValue(0)
@@ -148,7 +174,7 @@ class ExportDialog(QDialog):
             msg_error = QMessageBox()
             msg_error.setIcon(QMessageBox.Warning)
             msg_error.setText("Please select a folder to save the list of installed packages!")
-            msg_error.setWindowTitle("Folder is not selected")
+            msg_error.setWindowTitle("Error")
             msg_error.exec()
             return
 
