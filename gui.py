@@ -24,10 +24,10 @@ from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QV
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
 
-version = "1.2-dev1"
+version = "1.2-dev2"
 version_console = "1.2"
-folder_name = ""
-checked = [False, False, False, False]
+# folder_name = ""
+checked = []
 
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
@@ -55,57 +55,70 @@ class AboutDialog(QDialog):
         main_layout.addWidget(button_box)
         self.setLayout(main_layout)
 
-
 def write_to_file(commands, file):
-    save_path = Path(folder_name).joinpath(f'{file}.txt')
+    # file_path = f"{folder_name}/{file}.txt"
+    file_path = f"{file}.txt"
     try:
-        with open(save_path, "w") as f:
+        with open(file_path, "w") as f:
             subprocess.run(commands, shell=True, stdout=f, text=True)
     except:
-        with open(save_path, "w") as f:
+        with open(file_path, "w") as f:
             f.write("No packages or package manager found!")
+
+def export():
+    try:
+        if checked[0]:
+            flatpak = 'flatpak list --app --columns=name --columns=application'
+            write_to_file(flatpak, "Flatpak")
+        if checked[1]:
+            aur = 'pamac list --foreign'
+            write_to_file(aur, "AUR")
+        if checked[2]:
+            official = 'pamac list --installed | grep -v AUR'
+            write_to_file(official, "Official")
+        if checked[3]:
+            pip = 'pip3 list --format=columns'
+            write_to_file(pip, "PIP")
+    except Exception as e:
+        msg_error = QMessageBox()
+        msg_error.setIcon(QMessageBox.Critical)
+        msg_error.setText(f"Error: {e}")
+        msg_error.setWindowTitle("Error")
+        msg_error.exec_()
 
 class LongTermOperationThread(QThread):
     progress_updated = Signal(int)
     operation_done = Signal()
-
-    # Not working
     def run(self):
-        if checked[0]:
-            flatpak = 'flatpak list --app --columns=name --columns=application'
-            write_to_file(flatpak, "Flatpak")
-        elif checked[1]:
-            aur = 'pamac list --foreign'
-            write_to_file(aur, "AUR")
-        elif checked[2]:
-            official = 'pamac list --installed | grep -v AUR'
-            write_to_file(official, "Official")
-        elif checked[3]:
-            pip = 'pip3 list --format=columns'
-            write_to_file(pip, "PIP")
+        export()
         self.operation_done.emit()
-
+        
 class ExportDialog(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle(f"Arch-EIP GUI")
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowContextHelpButtonHint)
+        self.setWindowTitle("Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
-        width = 400
-        height = 200
+        # width = 420
+        # height = 180
+        width = 350
+        height = 130
         self.setFixedSize(width, height)
+        self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
-        self.label = QLabel("Select a folder to save the list of installed packages:")
-        self.label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        # self.label = QLabel("Select a folder to save the list of installed packages:")
+        # self.label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
-        self.folder_line_edit = QLineEdit()
-        self.folder_line_edit.setReadOnly(True)
+        # self.folder_line_edit = QLineEdit()
+        # self.folder_line_edit.setReadOnly(True)
 
-        self.select_folder_button = QPushButton("Select Folder")
-        self.select_folder_button.clicked.connect(self.select_folder)
+        # self.select_folder_button = QPushButton("Select Folder")
+        # self.select_folder_button.clicked.connect(self.select_folder)
 
         self.ex_label = QLabel("What needs to be exported?")
         self.ex_label.setAlignment(Qt.AlignCenter)
+        self.ex_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
         self.flatpak_checkbox = QCheckBox("Flatpak")
         self.aur_checkbox = QCheckBox("AUR")
@@ -113,7 +126,7 @@ class ExportDialog(QDialog):
         self.pip_checkbox = QCheckBox("PIP")
 
         self.export_button = QPushButton("Export")
-        self.export_button.clicked.connect(self.export)
+        self.export_button.clicked.connect(self.btn_export)
 
         self.progress_bar = QProgressBar(self)
         self.progress_bar.setMinimum(0)
@@ -122,12 +135,9 @@ class ExportDialog(QDialog):
         self.about_button = QPushButton("About")
         self.about_button.clicked.connect(self.about)
 
-        self.folder_line_edit = QLineEdit()
-        self.folder_line_edit.setReadOnly(True)
-
-        folder_layout = QHBoxLayout()
-        folder_layout.addWidget(self.folder_line_edit)
-        folder_layout.addWidget(self.select_folder_button)
+        # folder_layout = QHBoxLayout()
+        # folder_layout.addWidget(self.folder_line_edit)
+        # folder_layout.addWidget(self.select_folder_button)
         checkboxes_layout = QHBoxLayout()
         checkboxes_layout.addWidget(self.flatpak_checkbox)
         checkboxes_layout.addWidget(self.aur_checkbox)
@@ -137,8 +147,8 @@ class ExportDialog(QDialog):
         down_layout.addWidget(self.progress_bar)
         down_layout.addWidget(self.about_button)
         main_layout = QVBoxLayout()
-        main_layout.addWidget(self.label)
-        main_layout.addLayout(folder_layout)
+        # main_layout.addWidget(self.label)
+        # main_layout.addLayout(folder_layout)
         main_layout.addWidget(self.ex_label)
         main_layout.addLayout(checkboxes_layout)
         main_layout.addWidget(self.export_button)
@@ -152,12 +162,12 @@ class ExportDialog(QDialog):
         about_dialog = AboutDialog()
         about_dialog.exec()
 
-    def select_folder(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.ReadOnly
-        folder_name = QFileDialog.getExistingDirectory(self, "Select Folder", options=options)
-        if folder_name:
-            self.folder_line_edit.setText(folder_name)
+    # def select_folder(self):
+    #     options = QFileDialog.Options()
+    #     options |= QFileDialog.ReadOnly
+    #     folder_name = QFileDialog.getExistingDirectory(self, "Select Folder", options=options)
+    #     if folder_name:
+    #         self.folder_line_edit.setText(folder_name)
 
     def operation_done(self):
         msg_success = QMessageBox()
@@ -165,22 +175,34 @@ class ExportDialog(QDialog):
         msg_success.setText("List of installed packages exported!")
         msg_success.setWindowTitle("Export completed!")
         msg_success.exec()
+        self.progress_bar.setValue(100)
         self.progress_bar.setMaximum(100)
-        self.progress_bar.setValue(0)
 
-    def export(self):
-        folder_name = self.folder_line_edit.text()
-        if not folder_name:
+    def btn_export(self):
+        # folder_name = self.folder_line_edit.text()
+        # if not folder_name:
+        #     msg_error = QMessageBox()
+        #     msg_error.setIcon(QMessageBox.Warning)
+        #     msg_error.setText("Please select a folder to save the list of installed packages!")
+        #     msg_error.setWindowTitle("Error")
+        #     msg_error.exec()
+        #     return
+        if not self.flatpak_checkbox.isChecked() and not self.aur_checkbox.isChecked() and not self.official_checkbox.isChecked() and not self.pip_checkbox.isChecked():
             msg_error = QMessageBox()
             msg_error.setIcon(QMessageBox.Warning)
-            msg_error.setText("Please select a folder to save the list of installed packages!")
+            msg_error.setText("You need to select at least one checkbox!")
             msg_error.setWindowTitle("Error")
             msg_error.exec()
             return
-
-        self.progress_bar.setMaximum(0)
-        self.progress_bar.setValue(-1)
-        self.operation_thread.start()
+        else:
+            checked.clear()
+            checked.append(self.flatpak_checkbox.isChecked())
+            checked.append(self.aur_checkbox.isChecked())
+            checked.append(self.official_checkbox.isChecked())
+            checked.append(self.pip_checkbox.isChecked())
+            self.progress_bar.setMaximum(0)
+            self.progress_bar.setValue(-1)
+            self.operation_thread.start()
 
 
 if __name__ == "__main__":
