@@ -24,7 +24,7 @@ from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QV
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
 
-version = "1.2-dev2"
+version = "1.2-dev2-1"
 version_console = "1.2"
 # folder_name = ""
 checked = []
@@ -61,30 +61,28 @@ def write_to_file(commands, file):
     try:
         with open(file_path, "w") as f:
             subprocess.run(commands, shell=True, stdout=f, text=True)
-    except:
-        with open(file_path, "w") as f:
-            f.write("No packages or package manager found!")
-
-def export():
-    try:
-        if checked[0]:
-            flatpak = 'flatpak list --app --columns=name --columns=application'
-            write_to_file(flatpak, "Flatpak")
-        if checked[1]:
-            aur = 'pamac list --foreign'
-            write_to_file(aur, "AUR")
-        if checked[2]:
-            official = 'pamac list --installed | grep -v AUR'
-            write_to_file(official, "Official")
-        if checked[3]:
-            pip = 'pip3 list --format=columns'
-            write_to_file(pip, "PIP")
     except Exception as e:
         msg_error = QMessageBox()
         msg_error.setIcon(QMessageBox.Critical)
         msg_error.setText(f"Error: {e}")
         msg_error.setWindowTitle("Error")
         msg_error.exec_()
+        with open(file_path, "w") as f:
+            f.write("No packages or package manager found!")
+
+def export():
+    if checked[0]:
+        flatpak = 'flatpak list --app --columns=name --columns=application'
+        write_to_file(flatpak, "Flatpak")
+    if checked[1]:
+        aur = 'pamac list --foreign'
+        write_to_file(aur, "AUR")
+    if checked[2]:
+        official = 'pamac list --installed | grep -v AUR'
+        write_to_file(official, "Official")
+    if checked[3]:
+        pip = 'pip3 list --format=columns'
+        write_to_file(pip, "PIP")
 
 class LongTermOperationThread(QThread):
     progress_updated = Signal(int)
