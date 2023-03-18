@@ -17,16 +17,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
-from pathlib import Path
 import subprocess
 from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, \
     QLineEdit, QDialog, QMessageBox, QProgressBar, QDialogButtonBox, QCheckBox
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
 
-version = "1.2-dev2-1"
+version = "1.2-dev3"
 version_console = "1.2"
-# folder_name = ""
 checked = []
 
 class AboutDialog(QDialog):
@@ -56,19 +54,16 @@ class AboutDialog(QDialog):
         self.setLayout(main_layout)
 
 def write_to_file(commands, file):
-    # file_path = f"{folder_name}/{file}.txt"
     file_path = f"{file}.txt"
     try:
         with open(file_path, "w") as f:
-            subprocess.run(commands, shell=True, stdout=f, text=True)
+            print(subprocess.run(commands, shell=True, stdout=f, text=True))
     except Exception as e:
         msg_error = QMessageBox()
         msg_error.setIcon(QMessageBox.Critical)
         msg_error.setText(f"Error: {e}")
         msg_error.setWindowTitle("Error")
-        msg_error.exec_()
-        with open(file_path, "w") as f:
-            f.write("No packages or package manager found!")
+        msg_error.exec()
 
 def export():
     if checked[0]:
@@ -98,21 +93,10 @@ class ExportDialog(QDialog):
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
-        # width = 420
-        # height = 180
-        width = 350
-        height = 130
+        width = 340
+        height = 125
         self.setFixedSize(width, height)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-
-        # self.label = QLabel("Select a folder to save the list of installed packages:")
-        # self.label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-
-        # self.folder_line_edit = QLineEdit()
-        # self.folder_line_edit.setReadOnly(True)
-
-        # self.select_folder_button = QPushButton("Select Folder")
-        # self.select_folder_button.clicked.connect(self.select_folder)
 
         self.ex_label = QLabel("What needs to be exported?")
         self.ex_label.setAlignment(Qt.AlignCenter)
@@ -133,9 +117,6 @@ class ExportDialog(QDialog):
         self.about_button = QPushButton("About")
         self.about_button.clicked.connect(self.about)
 
-        # folder_layout = QHBoxLayout()
-        # folder_layout.addWidget(self.folder_line_edit)
-        # folder_layout.addWidget(self.select_folder_button)
         checkboxes_layout = QHBoxLayout()
         checkboxes_layout.addWidget(self.flatpak_checkbox)
         checkboxes_layout.addWidget(self.aur_checkbox)
@@ -145,8 +126,6 @@ class ExportDialog(QDialog):
         down_layout.addWidget(self.progress_bar)
         down_layout.addWidget(self.about_button)
         main_layout = QVBoxLayout()
-        # main_layout.addWidget(self.label)
-        # main_layout.addLayout(folder_layout)
         main_layout.addWidget(self.ex_label)
         main_layout.addLayout(checkboxes_layout)
         main_layout.addWidget(self.export_button)
@@ -160,13 +139,6 @@ class ExportDialog(QDialog):
         about_dialog = AboutDialog()
         about_dialog.exec()
 
-    # def select_folder(self):
-    #     options = QFileDialog.Options()
-    #     options |= QFileDialog.ReadOnly
-    #     folder_name = QFileDialog.getExistingDirectory(self, "Select Folder", options=options)
-    #     if folder_name:
-    #         self.folder_line_edit.setText(folder_name)
-
     def operation_done(self):
         msg_success = QMessageBox()
         msg_success.setIcon(QMessageBox.Information)
@@ -177,14 +149,6 @@ class ExportDialog(QDialog):
         self.progress_bar.setMaximum(100)
 
     def btn_export(self):
-        # folder_name = self.folder_line_edit.text()
-        # if not folder_name:
-        #     msg_error = QMessageBox()
-        #     msg_error.setIcon(QMessageBox.Warning)
-        #     msg_error.setText("Please select a folder to save the list of installed packages!")
-        #     msg_error.setWindowTitle("Error")
-        #     msg_error.exec()
-        #     return
         if not self.flatpak_checkbox.isChecked() and not self.aur_checkbox.isChecked() and not self.official_checkbox.isChecked() and not self.pip_checkbox.isChecked():
             msg_error = QMessageBox()
             msg_error.setIcon(QMessageBox.Warning)
@@ -205,6 +169,28 @@ class ExportDialog(QDialog):
 
 if __name__ == "__main__":
     app = QApplication()
+    try:
+        app.setStyle('Fusion')
+        app.setPalette(PALETTE_DARK())
+    except:
+        pass
+    is_plasma = 'plasma' in os.environ.get('DESKTOP_SESSION', '')
+    try:
+        ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'color-scheme'], capture_output=True).stdout.decode('utf-8').strip().strip("'")
+        if ret == 'prefer-dark':
+            print("Dark theme selected")
+        else:
+            ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'gtk-theme'], capture_output=True).stdout.decode('utf-8').strip().strip("'").lower()
+            if ret.endswith('-dark') or ret == 'HighContrastInverse':
+                print("Dark theme selected")
+    except:
+        pass
+    if not is_plasma:
+        app.setStyle('Fusion')
+        if darkmode_enabled:
+            app.setPalette(PALETTE_DARK())
+        else:
+            app.setPalette(QStyleFactory.create('fusion').standardPalette())
     app.setWindowIcon(QIcon("icon.png"))
     export_dialog = ExportDialog()
     export_dialog.setWindowTitle(f"Arch-EIP GUI")
