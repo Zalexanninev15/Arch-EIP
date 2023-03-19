@@ -35,7 +35,7 @@ pip install PySide6
 chmod +x ./gui.py
 ```
 
-Just run the `gui.py` file, just run it with a mouse click and choose whats needs to be exported (***Flatpak***/***AUR***/***Official***/***PIP***). Click "Export" and wait for the result.
+Just run the `gui.py` file, just run it with a mouse click and choose what needs to be exported (***Flatpak***/***AUR***/***Official***/***PIP***). Click "Export" and wait for the result.
 
 > In general, I'm new to all these GUI on Linux (this is my first graphical application), previously I did only on WinForms and a little WPF on Windows, so do not hesitate and correct my code/pay my attention to errors
 
