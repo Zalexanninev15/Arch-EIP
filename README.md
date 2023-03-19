@@ -22,7 +22,7 @@
 
 ## Description
 
-Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3). Example [here](https://cloud.disroot.org/s/4K63rWKJZ9YDxcP) (from [my Telegram channel PingvinusFun](https://ttttt.me/pingvinusfun) (RU), where I talk about my adventures and discoveries in OpenSource and Linux, which I became actively interested in 2023, [post with example](https://ttttt.me/pingvinusfun/34)). To get packages, I use `flatpak`, `pamac` and `grep` to exclude unnecessary strings. All tests were performed on Manjaro Linux ([example](https://ttttt.me/Zalexanninev15_News/825))
+Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3). To get packages, I use `flatpak`, `pamac` and `grep` to exclude unnecessary strings. All tests were performed on Manjaro Linux 
 
 ## Usage
 
@@ -35,7 +35,7 @@ pip install PySide6
 chmod +x ./gui.py
 ```
 
-Just run the `gui.py` file, just run it with a mouse click and choose what to export (***Flatpak***/***AUR***/***Official***/***PIP***). Click "Export" and wait for the result.
+Just run the `gui.py` file, just run it with a mouse click and choose whats needs to be exported (***Flatpak***/***AUR***/***Official***/***PIP***). Click "Export" and wait for the result.
 
 > In general, I'm new to all these GUI on Linux (this is my first graphical application), previously I did only on WinForms and a little WPF on Windows, so do not hesitate and correct my code/pay my attention to errors
 
