@@ -1,5 +1,4 @@
 
 *.txt
 venv
-.fleet/run.json
-.fleet/settings.json
+app/__pycache__/
