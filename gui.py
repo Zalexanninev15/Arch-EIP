@@ -18,12 +18,12 @@
 
 import os
 import subprocess
-from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, \
-    QLineEdit, QDialog, QMessageBox, QProgressBar, QDialogButtonBox, QCheckBox
+from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, \
+    QDialog, QMessageBox, QProgressBar, QDialogButtonBox, QCheckBox
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import QTimer, QThread, Signal, Slot, Qt
+from PySide6.QtCore import QThread, Signal, Qt
 
-version = "1.2-dev3"
+version = "1.3-dev1"
 version_console = "1.2"
 checked = []
 
@@ -31,7 +31,7 @@ class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("About")
-        self.setFixedSize(340, 180)
+        self.setFixedSize(340, 170)
 
         label = QLabel(self)
         label.setTextFormat(Qt.RichText)
@@ -93,9 +93,7 @@ class ExportDialog(QDialog):
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
-        width = 340
-        height = 125
-        self.setFixedSize(width, height)
+        self.setFixedSize(340, 135)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
         self.ex_label = QLabel("What needs to be exported?")
@@ -187,10 +185,7 @@ if __name__ == "__main__":
         pass
     if not is_plasma:
         app.setStyle('Fusion')
-        if darkmode_enabled:
-            app.setPalette(PALETTE_DARK())
-        else:
-            app.setPalette(QStyleFactory.create('fusion').standardPalette())
+        app.setPalette(QStyleFactory.create('fusion').standardPalette())
     app.setWindowIcon(QIcon("icon.png"))
     export_dialog = ExportDialog()
     export_dialog.setWindowTitle(f"Arch-EIP GUI")
