@@ -7,6 +7,7 @@
  [![](https://img.shields.io/badge/GUI_release-v1.3-blue.svg)](https://github.com/Zalexanninev15/Arch-EIP/blob/main/gui.py) 
  [![](https://img.shields.io/badge/Console_release-v1.2-blue.svg)](https://github.com/Zalexanninev15/Arch-EIP/blob/main/console.py) 
  [![](https://img.shields.io/github/last-commit/Zalexanninev15/Arch-EIP.svg)](https://github.com/Zalexanninev15/Arch-EIP/commits/master) 
+ [![CodeFactor](https://www.codefactor.io/repository/github/zalexanninev15/arch-eip/badge)](https://www.codefactor.io/repository/github/zalexanninev15/arch-eip)
  [![](https://img.shields.io/badge/license-GPLv3-ligthgreen.svg)](LICENSE) 
  [![](https://img.shields.io/badge/donate-Buy_Me_a_Coffee-F94400.svg)](https://zalexanninev15.jimdofree.com/buy-me-a-coffee) 
 
