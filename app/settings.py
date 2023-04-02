@@ -25,7 +25,7 @@ class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")
-        self.setFixedSize(330, 110)
+        self.setFixedSize(340, 114)
 
         settings_button = QPushButton("Apply settings")
         settings_button.clicked.connect(self.accept)

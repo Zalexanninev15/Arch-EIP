@@ -21,13 +21,14 @@ import subprocess
 from PySide6.QtWidgets import QApplication, QSizePolicy, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, \
     QDialog, QMessageBox, QProgressBar, QCheckBox
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import QThread, Signal, Qt
+from PySide6.QtCore import QThread, Signal, Qt, QCoreApplication
 from PySide6.QtWidgets import QStyleFactory
 import about
 import settings
 from utilities import ExportClass
+import qdarktheme
 
-version = "1.3-dev2"
+version = "1.3-dev3"
 checked = []
 
 class LongTermOperationThread(QThread):
@@ -44,7 +45,7 @@ class ExportDialog(QDialog):
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
-        self.setFixedSize(350,  135)
+        self.setFixedSize(350,  138)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
         self.ex_label = QLabel("What needs to be exported?")
@@ -127,12 +128,12 @@ class ExportDialog(QDialog):
 
 
 if __name__ == "__main__":
+    qdarktheme.enable_hi_dpi()
     app = QApplication()
     try:
         app.setStyle('Fusion')
-        app.setPalette(PALETTE_DARK())
     except:
-        pass
+        qdarktheme.setup_theme("dark")
     is_plasma = 'plasma' in os.environ.get('DESKTOP_SESSION', '')
     try:
         ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'color-scheme'], capture_output=True).stdout.decode('utf-8').strip().strip("'")
@@ -143,10 +144,9 @@ if __name__ == "__main__":
             if ret.endswith('-dark') or ret == 'HighContrastInverse':
                 print("Dark theme selected")
     except:
-        pass
+        qdarktheme.setup_theme("dark")
     if not is_plasma:
-        app.setStyle('Fusion')
-        app.setPalette(QStyleFactory.create('fusion').standardPalette())
+        qdarktheme.setup_theme("dark")
     app.setWindowIcon(QIcon("icon.png"))
     export_dialog = ExportDialog()
     export_dialog.setWindowTitle(f"Arch-EIP GUI")

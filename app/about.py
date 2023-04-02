@@ -24,7 +24,7 @@ class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("About")
-        self.setFixedSize(330, 160)
+        self.setFixedSize(334, 162)
 
         label = QLabel(self)
         label.setTextFormat(Qt.RichText)
