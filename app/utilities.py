@@ -19,10 +19,11 @@
 from PySide6.QtWidgets import QMessageBox
 import subprocess
 import tomli
+import os
 
 class ExportClass():
     def write_to_file(commands, file):
-        file_path = f"{file}.txt"
+        file_path = f"{os.path.abspath(os.path.dirname(__file__))}/output/{file}.txt"
         try:
             with open(file_path, "w") as f:
                 print(subprocess.run(commands, shell=True, stdout=f, text=True))
@@ -34,6 +35,9 @@ class ExportClass():
             msg_error.exec()
 
     def export(checked):
+        print(f"Script path: {os.path.abspath(os.path.dirname(__file__))}")
+        if not os.path.exists(f"{os.path.abspath(os.path.dirname(__file__))}/output"):
+            os.mkdir(f"{os.path.abspath(os.path.dirname(__file__))}/output") 
         if checked[0]:
             flatpak = 'flatpak list --app --columns=name --columns=application'
             ExportClass.write_to_file(flatpak, "Flatpak")

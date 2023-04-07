@@ -27,7 +27,7 @@ import settings
 from utilities import ExportClass
 import qdarktheme
 
-version = "1.3-dev3.0.2"
+version = "1.3-dev3.0.3"
 checked = []
 
 class LongTermOperationThread(QThread):

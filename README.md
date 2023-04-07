@@ -35,7 +35,7 @@ pip install PySide6 tomli
 chmod +x ./app/main.py
 ```
 
-Just run the `main.py` file in `app` folder, just run it with a mouse click and choose what needs to be exported (***Flatpak***/***AUR***/***Official***/***PIP***). Click "Export" and wait for the result.
+Just run the `main.py` file in `app` folder, just run it with a mouse click and choose what needs to be exported (***Flatpak***/***AUR***/***Official***/***PIP***). Click "Export" and wait for the result in the form of the desired files in the `output` folder.
 
 > In general, I'm new to all these GUI on Linux (this is my first graphical application), previously I did only on WinForms and a little WPF on Windows, so do not hesitate and correct my code/pay my attention to errors
 
