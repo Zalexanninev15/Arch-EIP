@@ -48,7 +48,11 @@ class ExportClass():
             ExportClass.write_to_file(pip, "PIP")
 
 class Config():
-    def load_config():
+    def load_config_export_list_type():
         with open('settings.toml', 'rb') as f:
             settings_dict = tomli.load(f)
             return settings_dict["APP"]["export_list_type"]
+        
+    def set_config(export_list_type):
+        with open('settings.toml', "w") as f:
+            f.write(f"[APP]\nexport_list_type = {export_list_type}")

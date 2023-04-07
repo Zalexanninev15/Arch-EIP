@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from PySide6.QtWidgets import QVBoxLayout, QDialog, QRadioButton, QPushButton, QGridLayout, \
-    QGroupBox, QHBoxLayout
+    QGroupBox, QHBoxLayout, QMessageBox
 from PySide6.QtCore import Qt
 from utilities import Config
 
@@ -27,35 +27,45 @@ class SettingsDialog(QDialog):
         self.setWindowTitle("Settings")
         self.setFixedSize(340, 114)
 
-        settings_button = QPushButton("Apply settings")
-        settings_button.clicked.connect(self.accept)
+        self.settings_button = QPushButton("Apply settings")
+        self.settings_button.clicked.connect(self.btn_save_and_close)
 
         layout = QGridLayout(self)
         groupbox = QGroupBox("Export list type:", checkable=False)
         layout.addWidget(groupbox)
-        layout.addWidget(settings_button)
+        layout.addWidget(self.settings_button)
         radiobox = QHBoxLayout()
         groupbox.setLayout(radiobox)
-        export_as_text_list = QRadioButton("Normal")
-        export_as_markdown_list = QRadioButton("Markdown")
-        export_as_installation_script = QRadioButton("Installation script")
-        radiobox.addWidget(export_as_text_list, alignment=Qt.AlignTop)
-        radiobox.addWidget(export_as_markdown_list, alignment=Qt.AlignTop)
-        radiobox.addWidget(export_as_installation_script, alignment=Qt.AlignTop)
+        self.export_as_text_list = QRadioButton("Normal")
+        self.export_as_markdown_list = QRadioButton("Markdown")
+        self.export_as_installation_script = QRadioButton("Installation script")
+        radiobox.addWidget(self.export_as_text_list, alignment=Qt.AlignTop)
+        radiobox.addWidget(self.export_as_markdown_list, alignment=Qt.AlignTop)
+        radiobox.addWidget(self.export_as_installation_script, alignment=Qt.AlignTop)
         radiobox.addStretch()
-
-        main_layout = QVBoxLayout()
-        main_layout.addLayout(radiobox)
-
+        
         layout.setColumnStretch(1, 1)
         layout.setRowStretch(1, 1)
-        self.setLayout(main_layout)
+        self.setLayout(radiobox)
 
-        list_type = Config.load_config()
+        list_type = Config.load_config_export_list_type()
         if (list_type == 1):
-            export_as_text_list.setChecked(True)
+            self.export_as_text_list.setChecked(True)
         elif (list_type == 2):
-            export_as_markdown_list.setChecked(True)
+            self.export_as_markdown_list.setChecked(True)
         elif (list_type == 3):
-            export_as_installation_script.setChecked(True)
-            
+            self.export_as_installation_script.setChecked(True)
+    
+    def btn_save_and_close(self):
+        if self.export_as_text_list.isChecked():
+            Config.set_config(1)
+        elif self.export_as_markdown_list.isChecked():
+            Config.set_config(2)
+        elif self.export_as_installation_script.isChecked():
+            Config.set_config(3)
+        msg_error = QMessageBox()
+        msg_error.setIcon(QMessageBox.Information)
+        msg_error.setText("Settings saved and applied!")
+        msg_error.setWindowTitle("Information")
+        msg_error.exec()
+        self.accept()
