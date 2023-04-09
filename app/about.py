@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Script with GUI for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
 # Copyright (C) 2023 Zalexanninev15
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Script with GUI for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
 # Copyright (C) 2023 Zalexanninev15
 
@@ -19,13 +17,13 @@
 from PySide6.QtWidgets import QVBoxLayout, QDialog, QRadioButton, QPushButton, QGridLayout, \
     QGroupBox, QHBoxLayout, QMessageBox
 from PySide6.QtCore import Qt
-from utilities import Config
+from utilities import ConfigClass
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")
-        self.setFixedSize(340, 114)
+        self.setFixedSize(340, 115)
 
         self.settings_button = QPushButton("Apply settings")
         self.settings_button.clicked.connect(self.btn_save_and_close)
@@ -44,11 +42,19 @@ class SettingsDialog(QDialog):
         radiobox.addWidget(self.export_as_installation_script, alignment=Qt.AlignTop)
         radiobox.addStretch()
         
-        layout.setColumnStretch(1, 1)
-        layout.setRowStretch(1, 1)
+        # groupbox1 = QGroupBox("Use native Qt theme for KDE:", checkable=False)
+        # radiobox1 = QHBoxLayout()
+        # groupbox1.setLayout(radiobox1)
+        # self.native_qt_theme_enable = QRadioButton("Enable")
+        # self.native_qt_theme_disable = QRadioButton("Disable")
+        # radiobox1.addWidget(self.native_qt_theme_enable, alignment=Qt.AlignTop)
+        # radiobox1.addWidget(self.native_qt_theme_disable, alignment=Qt.AlignTop)
+        # radiobox1.addStretch()
+        # radiobox.addLayout(radiobox1)
+        
         self.setLayout(radiobox)
 
-        list_type = Config.load_config_export_list_type()
+        list_type = ConfigClass.load_config_export_list_type()
         if (list_type == 1):
             self.export_as_text_list.setChecked(True)
         elif (list_type == 2):
@@ -58,11 +64,11 @@ class SettingsDialog(QDialog):
     
     def btn_save_and_close(self):
         if self.export_as_text_list.isChecked():
-            Config.set_config(1)
+            ConfigClass.set_config(1, "true")
         elif self.export_as_markdown_list.isChecked():
-            Config.set_config(2)
+            ConfigClass.set_config(2, "true")
         elif self.export_as_installation_script.isChecked():
-            Config.set_config(3)
+            ConfigClass.set_config(3, "true")
         msg_error = QMessageBox()
         msg_error.setIcon(QMessageBox.Information)
         msg_error.setText("Settings saved and applied!")

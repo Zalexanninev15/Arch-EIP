@@ -24,10 +24,10 @@ from PySide6.QtGui import QIcon
 from PySide6.QtCore import QThread, Signal, Qt
 import about
 import settings
-from utilities import ExportClass
+from utilities import ExportClass, ConfigClass
 import qdarktheme
 
-version = "1.3-dev3.0.3"
+version = "1.3-dev4"
 checked = []
 
 class LongTermOperationThread(QThread):
@@ -127,25 +127,34 @@ class ExportDialog(QDialog):
 
 
 if __name__ == "__main__":
-    qdarktheme.enable_hi_dpi()
+    qt_settings = ConfigClass.load_config_qt_class()
+    if (bool(qt_settings[2]) == True):
+        qdarktheme.enable_hi_dpi()
     app = QApplication()
-    os.environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '1'
-    os.environ['QT_SCALE_FACTOR'] = '100'
-    try:
-        app.setStyle('Fusion')
-    except:
-        qdarktheme.setup_theme("dark")
+    os.environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = str(qt_settings[0])
+    os.environ['QT_SCALE_FACTOR'] = str(qt_settings[1])
     is_plasma = 'plasma' in os.environ.get('DESKTOP_SESSION', '')
     if not is_plasma:
-        try:
-            ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'color-scheme'], capture_output=True).stdout.decode('utf-8').strip().strip("'")
-            if ret == 'prefer-dark':
-                print("Dark theme selected")
-            else:
-                ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'gtk-theme'], capture_output=True).stdout.decode('utf-8').strip().strip("'").lower()
-                if ret.endswith('-dark') or ret == 'HighContrastInverse':
+        if (bool(qt_settings[4]) == True):
+            try:
+                ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'color-scheme'], capture_output=True).stdout.decode('utf-8').strip().strip("'")
+                if ret == 'prefer-dark':
                     print("Dark theme selected")
-        except:
+                else:
+                    ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'gtk-theme'], capture_output=True).stdout.decode('utf-8').strip().strip("'").lower()
+                    if ret.endswith('-dark') or ret == 'HighContrastInverse':
+                        print("Dark theme selected")
+            except:
+                qdarktheme.setup_theme("dark")
+        else:
+            qdarktheme.setup_theme("dark")
+    else:
+        if (bool(qt_settings[3]) == True):
+            try:
+                app.setStyle('Fusion')
+            except:
+                qdarktheme.setup_theme("dark")
+        else:
             qdarktheme.setup_theme("dark")
     app.setWindowIcon(QIcon("icon.png"))
     export_dialog = ExportDialog()
