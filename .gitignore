@@ -3,3 +3,4 @@
 venv
 app/__pycache__/
 app/.vscode/settings.json
+.vscode/settings.json
