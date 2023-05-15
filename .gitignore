@@ -1,5 +1,6 @@
 
 *.txt
 venv
-.fleet/run.json
-.fleet/settings.json
+app/__pycache__/
+app/.vscode/settings.json
+.vscode/settings.json

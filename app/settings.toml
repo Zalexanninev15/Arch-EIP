@@ -1,0 +1,9 @@
+[APP]
+export_list_type = 1
+
+[Qt]
+auto_screen_scale_factor = 1
+scale_factor = 100
+enable_high_dpi = true
+use_native_theme_on_kde = true
+try_to_use_native_theme_on_gnome = true

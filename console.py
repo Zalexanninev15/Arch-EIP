@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Script for exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
+# Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
 # Copyright (C) 2023 Zalexanninev15
 
 # This program is free software: you can redistribute it and/or modify
