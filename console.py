@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
-# Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
+<<<<<<< Updated upstream
+# Script for exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
 # Copyright (C) 2023 Zalexanninev15
+=======
+# Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
+# Copyright (C) 2023-2024 Zalexanninev15
+>>>>>>> Stashed changes
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +32,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
 
-print("\nArch-EIP v1.2 (Flatpak+AUR+Official+PIP) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
+print("\nArch-EIP v1.4 (Flatpak+AUR+Official+PIP+Cargo) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
 print("[*] Working (4 steps)...\n")
 

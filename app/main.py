@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Script with GUI for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
-# Copyright (C) 2023 Zalexanninev15
+# Copyright (C) 2023-2024 Zalexanninev15
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,18 +30,22 @@ import qdarktheme
 version = "1.3-dev4"
 checked = []
 
+
 class LongTermOperationThread(QThread):
     progress_updated = Signal(int)
     operation_done = Signal()
+
     def run(self):
         ExportClass.export(checked)
         self.operation_done.emit()
-        
+
+
 class ExportDialog(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint |
+                            Qt.WindowMaximizeButtonHint | Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Arch-EIP GUI")
         self.setWindowIcon(QIcon("icon.png"))
         self.setFixedSize(350,  138)
@@ -49,7 +53,8 @@ class ExportDialog(QDialog):
 
         self.ex_label = QLabel("What needs to be exported?")
         self.ex_label.setAlignment(Qt.AlignCenter)
-        self.ex_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        self.ex_label.setSizePolicy(
+            QSizePolicy.Preferred, QSizePolicy.Preferred)
 
         self.flatpak_checkbox = QCheckBox("Flatpak")
         self.aur_checkbox = QCheckBox("AUR")
@@ -88,7 +93,8 @@ class ExportDialog(QDialog):
         self.setLayout(main_layout)
 
         self.operation_thread = LongTermOperationThread()
-        self.operation_thread.operation_done.connect(self.operation_done, Qt.QueuedConnection)
+        self.operation_thread.operation_done.connect(
+            self.operation_done, Qt.QueuedConnection)
 
     def btn_export(self):
         if not self.flatpak_checkbox.isChecked() and not self.aur_checkbox.isChecked() and not self.official_checkbox.isChecked() and not self.pip_checkbox.isChecked():
@@ -137,11 +143,13 @@ if __name__ == "__main__":
     if not is_plasma:
         if (bool(qt_settings[4]) == True):
             try:
-                ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'color-scheme'], capture_output=True).stdout.decode('utf-8').strip().strip("'")
+                ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'color-scheme'],
+                                     capture_output=True).stdout.decode('utf-8').strip().strip("'")
                 if ret == 'prefer-dark':
                     print("Dark theme selected")
                 else:
-                    ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'gtk-theme'], capture_output=True).stdout.decode('utf-8').strip().strip("'").lower()
+                    ret = subprocess.run(['gsettings', 'get', 'org.gnome.desktop.interface', 'gtk-theme'],
+                                         capture_output=True).stdout.decode('utf-8').strip().strip("'").lower()
                     if ret.endswith('-dark') or ret == 'HighContrastInverse':
                         print("Dark theme selected")
             except:
