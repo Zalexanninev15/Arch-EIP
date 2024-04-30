@@ -1,21 +1,15 @@
 # Arch-EIP
 
-<img src="./icon.png" width="128">
+<img src="./assets/icon.png" width="128">
 
  [![](https://img.shields.io/badge/platforms-Arch_Linux-1793D1.svg?logo=archlinux)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/badge/written_on-Python-3776AB.svg?logo=python)](https://github.com/Zalexanninev15/Arch-EIP) 
- [![](https://img.shields.io/badge/release-v1.2-blue.svg)](https://github.com/Zalexanninev15/Arch-EIP) 
+ [![](https://img.shields.io/badge/release-v1.4-blue.svg)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/github/last-commit/Zalexanninev15/Arch-EIP.svg)](https://github.com/Zalexanninev15/Arch-EIP/commits/master) 
  [![](https://img.shields.io/badge/license-GPLv3-ligthgreen.svg)](LICENSE) 
  [![](https://img.shields.io/badge/donate-Buy_Me_a_Coffee-F94400.svg)](https://zalexanninev15.jimdofree.com/buy-me-a-coffee) 
 
-## Screenshots
-
-#### GUI implementation
-
-<img src="./assets/gui.png" width="370">
-
-#### Console implementation
+## Screenshot
 
 ![](./assets/console.png)
 
@@ -25,31 +19,8 @@ Script for exporting installed packages to list in Arch linux for Flatpack, AUR,
 
 ## Usage
 
-#### GUI implementation
-
-Prepare for GUI version launch:
-
  ```bash 
-pip install PySide6
-chmod +x ./gui.py
- ```
-
-Just start the `gui.py` file just launch with a mouse click and select a folder for storing files `Flatpak.txt`, `AUR.txt`, `Official.txt` and `PIP.txt`. Click "Export" and expect the result.
-
-> In general, I'm new to all these GUI on Linux (this is my first graphical application), previously I did only on WinForms and a little WPF on Windows, so do not hesitate and correct my code/pay my attention to errors
-
-#### Console implementation
-
-Do the following in terminal or just launch with a mouse click (or how many of them you need to produce 😉)
-
- ```bash 
- python ./console.py
+ python ./main.py
  ```
 
 The packages of each type of package will be written to the appropriate text file: `Flatpak.txt`, `AUR.txt`, `Official.txt` and `PIP.txt`
-
-## Licensing
-
-Project|License
--------|--------
-[PySide6](https://pypi.org/project/PySide6/)|LGPL-3.0/GPL-2.0

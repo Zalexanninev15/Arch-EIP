@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
 
-<<<<<<< Updated upstream
-# Script for exporting installed packages to list (Markdown) in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
-# Copyright (C) 2023 Zalexanninev15
-=======
 # Script for exporting installed packages to list in Arch linux for Flatpack, AUR, Official and PIP (Python 3)
 # Copyright (C) 2023-2024 Zalexanninev15
->>>>>>> Stashed changes
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,12 +22,18 @@ def write_to_file(commands, file):
     with open(f"{file}.txt", "w") as f:
         subprocess.run(commands, shell=True, stdout=f, text=True)
 
-print('''Arch-EIP  Copyright (C) 2023  Zalexanninev15
+print('''Arch-EIP  Copyright (C) 2023-2024  Zalexanninev15
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
 
-print("\nArch-EIP v1.4 (Flatpak+AUR+Official+PIP+Cargo) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
+print("\nArch-EIP v1.4-dev0.1 (Flatpak+AUR+Official+PIP+Cargo+Fedora DNF) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
+
+# Step 1.
+# Choosing what to export
+
+# Step 2.
+# File format selection: a list (.txt) or a script for quick installation (.sh)
 
 print("[*] Working (4 steps)...\n")
 
@@ -52,4 +53,12 @@ print('[!] Step 4. PIP (Python 3)')
 pip3 = 'pip3 list'
 write_to_file(pip3, "PIP")
 
-print('\n[+] Done! All installed packages are written in the files \"Flatpak.txt\", \"AUR.txt\", \"Official.txt\" and \"PIP.txt\"')
+print('[!] Step 5. Cargo')
+cargo = ''
+write_to_file(cargo, "Cargo")
+
+print('[!] Step 6. Fedora DNF')
+dnf = ''
+write_to_file(dnf, "Fedora DNF")
+
+print('\n[+] Done! All installed packages are written in the files!')
