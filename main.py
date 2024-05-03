@@ -69,6 +69,7 @@ else:
         elif choice in ["1", "2", "3", "4", "5", "6"]:
             export_choices.append(int(choice))
         else:
+            print("Invalid choice. Please try again.")
 
 # Step 2. File format selection: a list (.txt) or a script for quick installation (.sh)
 format_bash = input(
