@@ -4,3 +4,4 @@ venv
 .fleet/settings.json
 .idea
 __pycache__
+*.sh
