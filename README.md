@@ -1,6 +1,6 @@
 # Arch-EIP
 
-<img src="./assets/icon.png" width="128">
+<img src="./icon.png" width="128">
 
  [![](https://img.shields.io/badge/platforms-Arch_Linux-1793D1.svg?logo=archlinux)](https://github.com/Zalexanninev15/Arch-EIP) 
   [![](https://img.shields.io/badge/platforms-Fedora-1793D1.svg?logo=fedora)](https://github.com/Zalexanninev15/Arch-EIP) 
@@ -37,4 +37,4 @@ Script for exporting lists of installed packages in various package managers, fo
  python ./main.py
  ```
 
-The data files will be located in the script directory with the `txt` or `sh` extensions (depending on your choice).
+The files with lists of installed packages will be placed in the output directory with the `txt` or `sh` extensions (depending on your choice).

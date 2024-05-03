@@ -18,17 +18,20 @@
 
 import subprocess
 import os
+from pathlib import Path
 
+output_dir = ''
 
 def write_to_file(commands, file, is_bash):
     if (is_bash):
         ext = 'sh'
     else:
         ext = 'txt'
-    with open(f"{file}.{ext}", "w") as f:
+    file_path = os.path.join(output_dir, f"{file}.{ext}")
+    with open(file_path, "w") as f:
         subprocess.run(commands, shell=True, stdout=f, text=True)
-    if (os.stat(f"{file}.{ext}").st_size == 0):
-        os.remove(f"{file}.{ext}")
+    if (os.stat(file_path).st_size == 0):
+        os.remove(file_path)
         print('Status: Recording error, because no text for recording was found!')
     else:
         print('Status: Export completed successfully!')
@@ -39,10 +42,8 @@ This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
 
-# Choosing what to export
-print("\nArch-EIP v1.4-dev1 (Flatpak+AUR+Official+PIP+Cargo+DNF) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
+print("\nArch-EIP v1.4-dev2 (Flatpak+AUR+Official+PIP+Cargo+DNF) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
-# Step 1. Choosing what to export. All or choose many
 print("Step 1. Choose what to export:")
 print("1. All")
 print("2. Choose individually")
@@ -56,26 +57,31 @@ else:
 
     print("\nSelect what to export.")
     print("1. Flatpak")
-    print("2. AUR (Arch Linux)")
-    print("3. Official (Arch Linux)")
+    print("2. AUR (Arch Linux/Manjaro) [ONLY TEXT FILE]")
+    print("3. Official (Arch Linux/Manjaro) [ONLY TEXT FILE]")
     print("4. PIP (Python 3)")
-    print("5. Cargo (Rust)")
-    print("6. DNF (Fedora)")
+    print("5. Cargo (Rust) [In developing]")
+    print("6. DNF (Fedora/Nobara Linux)")
+    print("7. APT (Debian/Ubuntu) [In developing]")
 
     while True:
         choice = input("\nEnter the corresponding number (one at a time, then you need to press Enter and enter the next one) or 'q' to finish: ")
         if choice == "q":
             break
-        elif choice in ["1", "2", "3", "4", "5", "6"]:
+        elif choice in ["1", "2", "3", "4", "5", "6", "7"]:
             export_choices.append(int(choice))
         else:
             print("Invalid choice. Please try again.")
 
-# Step 2. File format selection: a list (.txt) or a script for quick installation (.sh)
 format_bash = input(
     "\nDo you want to generate a script for quick installation (.sh)? (y/n): ").lower() == "y"
 
 print("")
+
+current_dir = os.getcwd()
+output_dir = os.path.join(current_dir, "output")
+if not os.path.exists(output_dir):
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 if export_all or 1 in export_choices:
     print('- Flatpak')
@@ -86,17 +92,17 @@ if export_all or 1 in export_choices:
     write_to_file(flatpak, "Flatpak", format_bash)
     
 if export_all or 2 in export_choices:
-    print('- AUR (Arch Linux) [ONLY TXT]')
+    print('- AUR [ONLY TEXT FILE]')
     aur = 'pamac list --foreign'
     write_to_file(aur, "AUR", format_bash)
 
 if export_all or 3 in export_choices:
-    print('- Official (Arch Linux) [ONLY TXT]')
+    print('- Official [ONLY TEXT FILE]')
     official = 'pamac list --installed | grep -v AUR'
     write_to_file(official, "Official", format_bash)
 
 if export_all or 4 in export_choices:
-    print('- Step 4. PIP (Python 3)')
+    print('- PIP')
     if (format_bash):
         pip3 = "echo '#!/bin/bash'\"\npip install \"$(pip list --format freeze | sed 's/==.*//' | xargs echo -n)"
     else:
@@ -104,16 +110,21 @@ if export_all or 4 in export_choices:
     write_to_file(pip3, "PIP", format_bash)
 
 if export_all or 5 in export_choices:
-    print('- Cargo (Rust) [In developing!]')
+    print('- Cargo [In developing]')
     cargo = ''
     write_to_file(cargo, "Cargo", format_bash)
 
 if export_all or 6 in export_choices:
-    print('- DNF (Fedora)')
+    print('- DNF')
     if (format_bash):
         dnf = "echo '#!/bin/bash'\"\nsudo dnf install \"$(rpm --query --all --queryformat '%{NAME} ' | xargs echo -n)"
     else:
         dnf = "rpm --query --all --queryformat '%{NAME}[%{ARCH}] %{VERSION} — %{SUMMARY}\n'"
-    write_to_file(dnf, "Fedora DNF", format_bash)
+    write_to_file(dnf, "DNF", format_bash)
+    
+if export_all or 7 in export_choices:
+    print('- APT [In developing]')
+    apt = ''
+    write_to_file(apt, "APT", format_bash)
 
-print('\nDone! All installed packages are written in the files!')
+print('\nDone! Lists of installed packages are written in the output folder!')
