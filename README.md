@@ -12,7 +12,7 @@
 
 ## Screenshot
 
-![](https://github.com/Zalexanninev15/Arch-EIP/assets/51060911/6abdc59e-f105-432c-86c4-e14f68a776f5)
+![image](https://github.com/Zalexanninev15/Arch-EIP/assets/51060911/87af4b48-4be3-4519-a968-eb210763014a)
 
 ## Description
 
