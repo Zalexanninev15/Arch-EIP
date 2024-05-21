@@ -1,6 +1,4 @@
-
-*.txt
 venv
-app/__pycache__/
-app/.vscode/settings.json
-.vscode/settings.json
+.idea
+__pycache__
+/output
