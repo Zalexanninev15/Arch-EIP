@@ -42,7 +42,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.''')
 
-print("\nArch-EIP v1.4-dev2 (Flatpak+AUR+Official+PIP+Cargo+DNF) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
+print("\nArch-EIP v1.4 (Flatpak+AUR+Official+PIP+Cargo+DNF) by Zalexanninev15\nGitHub: https://github.com/Zalexanninev15/Arch-EIP\n")
 
 print("Step 1. Choose what to export:")
 print("1. All")
@@ -59,8 +59,8 @@ else:
     print("1. Flatpak")
     print("2. AUR (Arch Linux/Manjaro) [ONLY TEXT FILE]")
     print("3. Official (Arch Linux/Manjaro) [ONLY TEXT FILE]")
-    print("4. PIP (Python 3)")
-    print("5. Cargo (Rust) [In developing]")
+    print("4. PIP (Python 3) [ALl packages]")
+    print("5. Cargo (Rust) [Tools as packages]")
     print("6. DNF (Fedora/Nobara Linux)")
     print("7. APT (Debian/Ubuntu) [In developing]")
 
@@ -102,7 +102,7 @@ if export_all or 3 in export_choices:
     write_to_file(official, "Official", format_bash)
 
 if export_all or 4 in export_choices:
-    print('- PIP')
+    print('- PIP [ALl packages]')
     if (format_bash):
         pip3 = "echo '#!/bin/bash'\"\npip install \"$(pip list --format freeze | sed 's/==.*//' | xargs echo -n)"
     else:
@@ -110,8 +110,11 @@ if export_all or 4 in export_choices:
     write_to_file(pip3, "PIP", format_bash)
 
 if export_all or 5 in export_choices:
-    print('- Cargo [In developing]')
-    cargo = ''
+    print('- Cargo [Tools as packages]')
+    if (format_bash):
+        cargo = "echo '#!/bin/bash'\"\ncargo install \"$(cat /home/$USER/.cargo/.crates2.json | jq -r '.installs | keys[] | split(\" \")[0]' | xargs echo -n)"
+    else:
+        cargo = "cat /home/$USER/.cargo/.crates2.json | jq -r '.installs | keys[] | split(\" \")[0]'"
     write_to_file(cargo, "Cargo", format_bash)
 
 if export_all or 6 in export_choices:

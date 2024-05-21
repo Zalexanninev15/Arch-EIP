@@ -12,7 +12,7 @@
 
 ## Screenshot
 
-![Снимок экрана от 2024-05-03 13-24-33](https://github.com/Zalexanninev15/Arch-EIP/assets/51060911/6abdc59e-f105-432c-86c4-e14f68a776f5)
+![](https://github.com/Zalexanninev15/Arch-EIP/assets/51060911/6abdc59e-f105-432c-86c4-e14f68a776f5)
 
 ## Description
 
@@ -30,6 +30,7 @@ Script for exporting lists of installed packages in various package managers, fo
 - PIP (Python 3)
 - Cargo (Rust)
 - DNF (Fedora/Nobara Linux)
+- APT (In developing)
 
 ## Usage
 
