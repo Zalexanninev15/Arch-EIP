@@ -3,12 +3,12 @@
 <img src="./icon.png" width="128">
 
  [![](https://img.shields.io/badge/platforms-Arch_Linux-1793D1.svg?logo=archlinux)](https://github.com/Zalexanninev15/Arch-EIP) 
-  [![](https://img.shields.io/badge/platforms-Fedora-1793D1.svg?logo=fedora)](https://github.com/Zalexanninev15/Arch-EIP) 
+ [![](https://img.shields.io/badge/platforms-Fedora-1793D1.svg?logo=fedora)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/badge/written_on-Python-3776AB.svg?logo=python)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/badge/release-v1.4-blue.svg)](https://github.com/Zalexanninev15/Arch-EIP) 
  [![](https://img.shields.io/github/last-commit/Zalexanninev15/Arch-EIP.svg)](https://github.com/Zalexanninev15/Arch-EIP/commits/master) 
  [![](https://img.shields.io/badge/license-GPLv3-ligthgreen.svg)](LICENSE) 
-[![](https://img.shields.io/badge/Donate-FFDD00.svg?logo=buymeacoffee&logoColor=black)](https://teletype.in/@zalexanninev15/donate) 
+[![](https://img.shields.io/badge/Donate-FFDD00.svg?logo=buymeacoffee&logoColor=black)](https://z15.neocities.org/donate)
 
 ## Screenshot
 
